@@ -3,8 +3,8 @@ import VerticalSpacer from "@saleor/apps/components/VerticalSpacer";
 import CardTitle from "@saleor/components/CardTitle";
 import GiftCardCreateDialog from "@saleor/giftCards/GiftCardCreateDialog/GiftCardCreateDialog";
 import { mapEdgesToItems } from "@saleor/utils/maps";
-import { useContext } from "hoist-non-react-statics/node_modules/@types/react";
 import * as React from "react";
+import { useContext } from "react";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 
@@ -36,13 +36,14 @@ const useStyles = makeStyles(
 );
 
 const CustomerGiftCardsCard: React.FC<CustomerGiftCardsCardProps> = () => {
-  const { id } = useContext(CustomerGiftCardContext);
+  // const { id } = useContext(CustomerGiftCardContext);
+  const XDXD = useContext(CustomerGiftCardContext);
 
   const { data, loading } = useCustomerGiftCardQuery({
     variables: {
       first: 5,
       filter: {
-        usedBy: [id]
+        usedBy: ["id"]
       }
     }
   });

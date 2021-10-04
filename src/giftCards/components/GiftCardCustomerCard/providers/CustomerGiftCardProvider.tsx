@@ -1,8 +1,8 @@
 import { CustomerDetails_user } from "@saleor/customers/types/CustomerDetails";
 import { GiftCardCreateFormCustomer } from "@saleor/giftCards/GiftCardCreateDialog/types";
 import { getFullName } from "@saleor/misc";
-import { createContext } from "hoist-non-react-statics/node_modules/@types/react";
 import React from "react";
+import { createContext } from "react";
 
 interface CustomerGiftCardProviderProps {
   customer: CustomerDetails_user;
