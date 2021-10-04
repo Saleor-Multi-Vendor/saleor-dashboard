@@ -1,3 +1,4 @@
+import { GiftCardCreateFormCustomer } from "@saleor/giftCards/GiftCardCreateDialog/types";
 import { UseNavigatorResult } from "@saleor/hooks/useNavigator";
 import { BulkAction, Dialog, SingleAction } from "@saleor/types";
 
@@ -11,6 +12,7 @@ export interface DialogActionHandlersProps {
   closeDialog: () => void;
   open: boolean;
   refetchQueries?: string[];
+  selectedCustomer?: GiftCardCreateFormCustomer;
 }
 
 function createDialogActionHandlers<
