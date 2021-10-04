@@ -15,25 +15,11 @@ import {
   CUSTOMER_GIFT_CARD_LIST_QUERY,
   useCustomerGiftCardQuery
 } from "./queries";
+import { useCardActionsStyles } from "./styles";
 
 interface CustomerGiftCardsCardProps {
   customerId?: string | null;
 }
-
-interface CustomerGiftCardsCardActionsProps {
-  buttonPosition: "left" | "right";
-}
-
-const useStyles = makeStyles(
-  theme => ({
-    cardActions: {
-      padding: `${theme.spacing(2)} ${theme.spacing(3)}`,
-      flexDirection: ({ buttonPosition }: CustomerGiftCardsCardActionsProps) =>
-        buttonPosition === "left" ? "row" : "row-reverse"
-    }
-  }),
-  { name: "CustomerGiftCardsCard" }
-);
 
 const CustomerGiftCardsCard: React.FC<CustomerGiftCardsCardProps> = () => {
   // const { id } = useContext(CustomerGiftCardContext);
@@ -66,38 +52,31 @@ const CustomerGiftCardsCard: React.FC<CustomerGiftCardsCardProps> = () => {
   };
 
   return (
-    <Card>
-      <CardTitle
-        title="Gift Cards"
-        toolbar={
-          !!giftCards?.length && (
-            <Button
-              variant="text"
-              color="primary"
-              onClick={handleViewAllButton}
-            >
-              <FormattedMessage {...messages.customerGiftCardsViewAllButton} />
-            </Button>
-          )
-        }
-      >
-        <FormattedMessage
-          {...{
-            ...(!!giftCards?.length
-              ? messages.customerGiftCardsPresentSubtitle
-              : messages.customerGiftCardsAbsentSubtitle)
-          }}
-        />
-        <VerticalSpacer spacing={2} />
-      </CardTitle>
-      <CustomerGiftCardsList giftCards={giftCards} loading={loading} />
-      <CardActions className={classes.cardActions}>
-        <Button
-          variant="text"
-          color="primary"
-          onClick={handleCreateNewCardButton}
+    <>
+      <Card>
+        <CardTitle
+          title="Gift Cards"
+          toolbar={
+            !!giftCards?.length && (
+              <Button
+                variant="text"
+                color="primary"
+                onClick={handleViewAllButton}
+              >
+                <FormattedMessage
+                  {...messages.customerGiftCardsViewAllButton}
+                />
+              </Button>
+            )
+          }
         >
-          {getCardSubtitle()}
+          <FormattedMessage
+            {...{
+              ...(!!giftCards?.length
+                ? messages.customerGiftCardsPresentSubtitle
+                : messages.customerGiftCardsAbsentSubtitle)
+            }}
+          />
           <VerticalSpacer spacing={2} />
         </CardTitle>
         <CustomerGiftCardsList giftCards={giftCards} loading={loading} />
