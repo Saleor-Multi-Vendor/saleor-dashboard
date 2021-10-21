@@ -25,6 +25,7 @@ import { Backlink } from "@saleor/macaw-ui";
 import ProductVariantPrice from "@saleor/products/components/ProductVariantPrice";
 import { ProductType_productType } from "@saleor/products/types/ProductType";
 import { getChoices } from "@saleor/products/utils/data";
+import useUser from "@saleor/hooks/useUser";
 import { SearchAttributeValues_attribute_choices_edges_node } from "@saleor/searches/types/SearchAttributeValues";
 import { SearchCategories_search_edges_node } from "@saleor/searches/types/SearchCategories";
 import { SearchCollections_search_edges_node } from "@saleor/searches/types/SearchCollections";
@@ -35,13 +36,14 @@ import { SearchWarehouses_search_edges_node } from "@saleor/searches/types/Searc
 import { PermissionEnum } from "@saleor/types/globalTypes";
 import React from "react";
 import { useIntl } from "react-intl";
-
+import { usegetVendorWarehouses} from "@saleor/products/queries";
 import { FetchMoreProps } from "../../../types";
 import ProductDetailsForm from "../ProductDetailsForm";
 import ProductOrganization from "../ProductOrganization";
 import ProductShipping from "../ProductShipping/ProductShipping";
 import ProductStocks from "../ProductStocks";
 import ProductTaxes from "../ProductTaxes";
+
 import ProductCreateForm, {
   ProductCreateData,
   ProductCreateFormData,
@@ -134,15 +136,30 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
   onAttributeSelectBlur
 }: ProductCreatePageProps) => {
   const intl = useIntl();
-
+// console.log('entered product create page')
   // Display values
   const [selectedCategory, setSelectedCategory] = useStateFromProps(
     initial?.category || ""
   );
 
+  const {data:vendorWarehousesData}= usegetVendorWarehouses({})
+  const user=useUser();
+  const isAdmin=user?.user.email=='admin@example.com'?true:false;
+  let vendorWarehouses=vendorWarehousesData?.vendorWarehouses.edges.filter(vWarehouse=>vWarehouse.node.vendorId.user.email==user?.user.email)
   const [selectedCollections, setSelectedCollections] = useStateFromProps<
     MultiAutocompleteChoiceType[]
   >([]);
+
+  const newVendorWarehouses=isAdmin?warehouses:vendorWarehouses?.map(vWarehouse=>
+  {return{
+    _typeName:'Warehouse',
+    id:vWarehouse.node.warehouse.id,
+    name:vWarehouse.node.warehouse.name,
+    shippingZones:vWarehouse.node.warehouse.shippingZones
+  }}
+  )
+
+// console.log('vendor warehouses', warehouses, newVendorWarehouses)
 
   const [selectedTaxType, setSelectedTaxType] = useStateFromProps(
     initial?.taxCode || null
@@ -192,7 +209,7 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
       setSelectedTaxType={setSelectedTaxType}
       setChannels={onChannelsChange}
       taxTypes={taxTypeChoices}
-      warehouses={warehouses}
+      warehouses={newVendorWarehouses}
       currentChannels={currentChannels}
       fetchReferencePages={fetchReferencePages}
       fetchMoreReferencePages={fetchMoreReferencePages}
@@ -272,7 +289,7 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
                       errors={errors}
                       formErrors={formErrors}
                       stocks={data.stocks}
-                      warehouses={warehouses}
+                      warehouses={newVendorWarehouses}
                       onChange={handlers.changeStock}
                       onChangePreorderEndDate={handlers.changePreorderEndDate}
                       onWarehouseStockAdd={handlers.addStock}

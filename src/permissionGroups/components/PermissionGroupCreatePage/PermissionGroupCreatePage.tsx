@@ -57,7 +57,9 @@ const PermissionGroupCreatePage: React.FC<PermissionGroupCreatePageProps> = ({
 
   return (
     <Form initial={initialForm} onSubmit={onSubmit} confirmLeave>
-      {({ data, change, submit, hasChanged }) => (
+      {({ data, change, submit, hasChanged }) => {
+        console.log('data permission',data, permissions)
+        return (
         <Container>
           <Backlink onClick={onBack}>
             {intl.formatMessage(sectionNames.permissionGroups)}
@@ -100,7 +102,10 @@ const PermissionGroupCreatePage: React.FC<PermissionGroupCreatePageProps> = ({
             />
           </div>
         </Container>
-      )}
+      )
+      
+      }
+      }
     </Form>
   );
 };

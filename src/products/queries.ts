@@ -178,9 +178,118 @@ const productListQuery = gql`
     }
   }
 `;
+
+const productListVendorQuery = gql`
+  ${productFragment}
+  ${attributeValueFragment}
+  query ProductList(
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+    $filter: ProductFilterInput
+    $channel: String
+    $sort: ProductOrder
+  ) {
+    products(
+      before: $before
+      after: $after
+      first: $first
+      last: $last
+      filter: $filter
+      sortBy: $sort
+      channel: $channel
+      ) {
+      edges {
+        node {
+          ...ProductFragment
+          attributes {
+            attribute {
+              id
+            }
+            values {
+              ...AttributeValueFragment
+            }
+          }
+        }
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
+      }
+      totalCount
+    }
+  }
+`;
 export const useProductListQuery = makeQuery<ProductList, ProductListVariables>(
   productListQuery
 );
+export const useProductListVendorQuery = makeQuery<ProductList, ProductListVariables>(
+  productListVendorQuery
+);
+
+const getVendorWarehouses=gql`
+query {
+  vendorWarehouses(first:100){
+    edges{
+      node{
+        vendorId{
+          shopName
+          user{
+            id
+            email
+            firstName
+          }
+          id
+        }
+        warehouse{
+          __typename
+          shippingZones(first:100){
+            __typename
+            edges{
+              node{
+                __typename
+                name
+                id
+              }
+            }
+          }
+          name
+          id
+          email
+        }
+      
+      }
+    }
+  }
+}
+`
+export const usegetVendorWarehouses = makeQuery<
+null,  null
+>(getVendorWarehouses);
+
+const getVendorsList=gql`
+query getVendorsList {
+  vendors(first:100){
+    edges{
+    node{
+      id
+      user{
+        email
+        firstName
+        lastName
+      } 
+    }
+    }
+  }
+}
+`
+
+export const usegetVendorsList = makeQuery<
+null,  null
+>(getVendorsList);
 
 const productCountQuery = gql`
   query ProductCount($filter: ProductFilterInput, $channel: String) {

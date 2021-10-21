@@ -40,6 +40,7 @@ export enum AccountErrorCode {
   PASSWORD_TOO_SIMILAR = "PASSWORD_TOO_SIMILAR",
   REQUIRED = "REQUIRED",
   UNIQUE = "UNIQUE",
+
 }
 
 export enum AddressTypeEnum {
@@ -1558,6 +1559,7 @@ export enum PermissionEnum {
   MANAGE_CHECKOUTS = "MANAGE_CHECKOUTS",
   MANAGE_DISCOUNTS = "MANAGE_DISCOUNTS",
   MANAGE_GIFT_CARD = "MANAGE_GIFT_CARD",
+  MANAGE_VENDOR = "MANAGE_VENDOR",
   MANAGE_MENUS = "MANAGE_MENUS",
   MANAGE_ORDERS = "MANAGE_ORDERS",
   MANAGE_PAGES = "MANAGE_PAGES",
@@ -2566,6 +2568,7 @@ export interface ProductFilterInput {
   ids?: (string | null)[] | null;
   hasPreorderedVariants?: boolean | null;
   channel?: string | null;
+  vendor?: string | null;
 }
 
 export interface ProductInput {

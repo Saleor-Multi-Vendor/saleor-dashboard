@@ -365,6 +365,10 @@ export const permissions: ShopInfo_shop_permissions[] = [
     name: "Manage staff."
   },
   {
+    code: PermissionEnum.MANAGE_VENDOR,
+    name: "Manage vendor."
+  },
+  {
     code: PermissionEnum.MANAGE_USERS,
     name: "Manage customers."
   },
@@ -469,6 +473,11 @@ export const adminUserPermissions: User_userPermissions[] = [
   {
     __typename: "UserPermission",
     code: PermissionEnum.MANAGE_STAFF,
+    name: "Manage staff."
+  },
+  {
+    __typename: "UserPermission",
+    code: PermissionEnum.MANAGE_VENDOR,
     name: "Manage staff."
   },
   {

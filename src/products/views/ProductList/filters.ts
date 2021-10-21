@@ -316,7 +316,8 @@ export function getFilterVariables(
     stockAvailability:
       params.stockStatus !== undefined
         ? findValueInEnum(params.stockStatus, StockAvailability)
-        : null
+        : null,
+    // vendor: params.vendor !== undefined ?
   };
 }
 

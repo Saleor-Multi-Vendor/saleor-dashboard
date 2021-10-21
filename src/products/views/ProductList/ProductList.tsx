@@ -25,6 +25,7 @@ import usePaginator, {
 } from "@saleor/hooks/usePaginator";
 import { commonMessages } from "@saleor/intl";
 import { maybe } from "@saleor/misc";
+import useUser from "@saleor/hooks/useUser";
 import ProductExportDialog from "@saleor/products/components/ProductExportDialog";
 import {
   getAttributeIdFromColumnValue,
@@ -38,7 +39,9 @@ import {
   useInitialProductFilterCollectionsQuery,
   useInitialProductFilterProductTypesQuery,
   useProductCountQuery,
-  useProductListQuery
+  useProductListQuery,
+  useProductListVendorQuery,
+  usegetVendorsList
 } from "@saleor/products/queries";
 import { ProductListVariables } from "@saleor/products/types/ProductList";
 import {
@@ -62,7 +65,6 @@ import { getSortUrlVariables } from "@saleor/utils/sort";
 import { useWarehouseList } from "@saleor/warehouses/queries";
 import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-
 import ProductListPage from "../../components/ProductListPage";
 import {
   useProductBulkDeleteMutation,
@@ -80,11 +82,23 @@ import {
 } from "./filters";
 import { canBeSorted, DEFAULT_SORT_KEY, getSortQueryVariables } from "./sort";
 
+
 interface ProductListProps {
   params: ProductListUrlQueryParams;
 }
 
 export const ProductList: React.FC<ProductListProps> = ({ params }) => {
+const user = useUser();
+console.log("saleor's permission",vendors);
+const isVendor=user.user.userPermissions.filter(permissionCode=>permissionCode.code=="MANAGE_VENDOR").length>0 && user.user.userPermissions.length<4?true:false;
+    // if(isVendor){ 
+       const {
+    data: vendors
+  } = usegetVendorsList({})
+    // console.log("vendors",vendors,vendors?vendors.vendors.edges[0].node.user.email:null)
+    
+    
+console.log('user id ', isVendor)
   const navigate = useNavigator();
   const notify = useNotifier();
   const paginate = usePaginator();
@@ -255,6 +269,7 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
     }
   }, [params]);
 
+
   const handleTabChange = (tab: number) => {
     reset();
     navigate(
@@ -302,7 +317,24 @@ export const ProductList: React.FC<ProductListProps> = ({ params }) => {
     [params, settings.rowNumber]
   );
   // TODO: When channel is undefined we should skip detailed pricing listings
-  const { data, loading, refetch } = useProductListQuery({
+// const vendorId= "VmVuZG9yOjE="
+console.log('vendors', vendors)
+    const currentVendor=vendors?vendors.vendors.edges.filter(vendor=>{
+      if(vendor.node.user){
+    return vendor.node.user.email==user?.user.email}
+    else return false}):null
+  let vendorId=null;
+if(currentVendor){
+
+vendorId=currentVendor.length>0 ?currentVendor[0].node.id:null;
+  // console.log("vendors", currentVendor, 'vendorId')
+}
+
+const { data, loading, refetch } = isVendor? useProductListVendorQuery({
+    displayLoader: true,
+    variables: {...queryVariables,filter:{vendor:vendorId}}
+  }): 
+useProductListQuery({
     displayLoader: true,
     variables: queryVariables
   });

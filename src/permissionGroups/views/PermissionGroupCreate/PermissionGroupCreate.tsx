@@ -65,7 +65,6 @@ const PermissionGroupCreateView: React.FC = () => {
           lastSource: false
         } as PermissionData)
     ) || [];
-
   return (
     <>
       <WindowTitle
