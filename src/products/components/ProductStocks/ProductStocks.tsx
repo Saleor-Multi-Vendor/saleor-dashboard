@@ -205,10 +205,12 @@ const ProductStocks: React.FC<ProductStocksProps> = ({
 
   const warehousesToAssign =
     warehouses?.filter(
-      warehouse => !stocks.some(stock => stock.id === warehouse.id)
+      warehouse => warehouse?!stocks.some(stock => stock.id === warehouse.id):false
     ) || [];
   const formErrors = getFormErrors(["sku"], errors);
-
+  // warehouses?.filter(warehouse=> (warehouse!=undefined && warehouse!=null));
+  // warehouses=[...warehousesToAssign]
+console.log('warehouses to assign', warehousesToAssign, warehouses)
   const onThresholdChange = createNonNegativeValueChangeHandler(
     onFormDataChange
   );

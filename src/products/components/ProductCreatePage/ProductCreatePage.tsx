@@ -151,12 +151,14 @@ export const ProductCreatePage: React.FC<ProductCreatePageProps> = ({
   >([]);
 
   const newVendorWarehouses=isAdmin?warehouses:vendorWarehouses?.map(vWarehouse=>
-  {return{
+  {
+    if(vWarehouse.node.warehouse){
+    return{
     _typeName:'Warehouse',
     id:vWarehouse.node.warehouse.id,
     name:vWarehouse.node.warehouse.name,
     shippingZones:vWarehouse.node.warehouse.shippingZones
-  }}
+  }}}
   )
 
 // console.log('vendor warehouses', warehouses, newVendorWarehouses)

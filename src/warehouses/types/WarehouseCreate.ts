@@ -76,3 +76,11 @@ export interface WarehouseCreate {
 export interface WarehouseCreateVariables {
   input: WarehouseCreateInput;
 }
+
+export interface VendorWarehouseVariables {
+  input: VendorWarehouseInput;
+}
+
+export interface VendorWarehouseCreate {
+  createVendorWarehouse: VendorWarehouseCreate_createVendorWarehouse | null;
+}

@@ -50,6 +50,29 @@ export const useWarehouseCreate = makeMutation<
   WarehouseCreateVariables
 >(createWarehouse);
 
+const createVendorWarehouse = gql`
+  mutation vendorWarehouseCreate($input: VendorWarehouseInput!) {
+    createVendorwarehouse(input: $input) {
+      errors {
+        field
+        message
+        code
+      }
+      vendorWarehouse {
+        id
+        warehouse{
+          name
+        }
+      }
+    }
+  }
+`;
+export const useVendorWarehouseCreate = makeMutation<
+  createVendorWarehouse, 
+  VendorWarehouseVariables
+>(createVendorWarehouse);
+
+
 const updateWarehouse = gql`
   ${warehouseDetailsFragment}
   ${warehouseErrorFragment}

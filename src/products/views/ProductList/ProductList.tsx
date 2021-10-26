@@ -89,7 +89,6 @@ interface ProductListProps {
 
 export const ProductList: React.FC<ProductListProps> = ({ params }) => {
 const user = useUser();
-console.log("saleor's permission",vendors);
 const isVendor=user.user.userPermissions.filter(permissionCode=>permissionCode.code=="MANAGE_VENDOR").length>0 && user.user.userPermissions.length<4?true:false;
     // if(isVendor){ 
        const {
@@ -98,7 +97,6 @@ const isVendor=user.user.userPermissions.filter(permissionCode=>permissionCode.c
     // console.log("vendors",vendors,vendors?vendors.vendors.edges[0].node.user.email:null)
     
     
-console.log('user id ', isVendor)
   const navigate = useNavigator();
   const notify = useNotifier();
   const paginate = usePaginator();
@@ -318,7 +316,6 @@ console.log('user id ', isVendor)
   );
   // TODO: When channel is undefined we should skip detailed pricing listings
 // const vendorId= "VmVuZG9yOjE="
-console.log('vendors', vendors)
     const currentVendor=vendors?vendors.vendors.edges.filter(vendor=>{
       if(vendor.node.user){
     return vendor.node.user.email==user?.user.email}
@@ -327,7 +324,6 @@ console.log('vendors', vendors)
 if(currentVendor){
 
 vendorId=currentVendor.length>0 ?currentVendor[0].node.id:null;
-  // console.log("vendors", currentVendor, 'vendorId')
 }
 
 const { data, loading, refetch } = isVendor? useProductListVendorQuery({
@@ -338,6 +334,7 @@ useProductListQuery({
     displayLoader: true,
     variables: queryVariables
   });
+  console.log("vendors", currentVendor, "products", data)
 
   function filterColumnIds(columns: ProductListColumns[]) {
     return columns

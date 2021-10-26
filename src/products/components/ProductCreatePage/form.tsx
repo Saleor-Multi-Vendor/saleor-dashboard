@@ -280,7 +280,7 @@ function useProductCreateForm(
         quantityAllocated: 0
       },
       id,
-      label: opts.warehouses.find(warehouse => warehouse.id === id).name,
+      label: opts.warehouses.find(warehouse => warehouse?.id === id).name,
       value: "0"
     });
   };

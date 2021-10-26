@@ -15,6 +15,8 @@ import {
 } from "@saleor/types";
 import { hasLimits, isLimitReached } from "@saleor/utils/limits";
 import { WarehouseListUrlSortField } from "@saleor/warehouses/urls";
+import useUser from "@saleor/hooks/useUser";
+import { usegetVendorWarehouses} from "@saleor/products/queries";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -57,6 +59,21 @@ export const WarehouseListPage: React.FC<WarehouseListPageProps> = ({
   const intl = useIntl();
 
   const limitReached = isLimitReached(limits, "warehouses");
+
+
+  const {data:vendorWarehousesData}= usegetVendorWarehouses({})
+  const user=useUser();
+  const isAdmin=user?.user.email=='admin@example.com'?true:false;
+  let vendorWarehouses=vendorWarehousesData?.vendorWarehouses.edges.filter(vWarehouse=>(vWarehouse.node.vendorId.user.email==user?.user.email && vWarehouse.node.warehouse))
+
+  const newVendorWarehouses=isAdmin?warehouses:vendorWarehouses?.map(vWarehouse=>
+  {return{
+    _typeName:'Warehouse',
+    id:vWarehouse.node.warehouse.id,
+    name:vWarehouse.node.warehouse?.name,
+    shippingZones:vWarehouse.node.warehouse.shippingZones
+  }}
+  )
 
   return (
     <Container>
@@ -121,7 +138,7 @@ export const WarehouseListPage: React.FC<WarehouseListPageProps> = ({
           onTabSave={onTabSave}
         />
         <WarehouseList
-          warehouses={warehouses}
+          warehouses={newVendorWarehouses}
           disabled={disabled}
           pageInfo={pageInfo}
           settings={settings}
