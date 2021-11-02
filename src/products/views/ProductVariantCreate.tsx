@@ -101,7 +101,7 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
       formData.attributesWithNewFileValue,
       uploadFilesResult
     );
-
+  console.log('enddate',formData.preorderEndDateTime)
     const result = await variantCreate({
       variables: {
         input: {
@@ -121,7 +121,8 @@ export const ProductVariant: React.FC<ProductVariantCreateProps> = ({
           weight: weight(formData.weight),
           preorder: {
             globalThreshold: formData.globalThreshold,
-            endDate: formData.preorderEndDateTime
+            // endDate: formData.preorderEndDateTime
+            endDate: new Date()
           }
         },
         firstValues: 10

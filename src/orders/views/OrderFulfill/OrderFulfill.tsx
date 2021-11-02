@@ -69,7 +69,7 @@ const OrderFulfill: React.FC<OrderFulfillProps> = ({ orderId }) => {
       }
     }
   });
-
+console.log('order fulfill', data, orderLinesWarehouses)
   const resolvedOrderLinesWarehouses = resolveLocalFulfillment(
     data?.order,
     orderLinesWarehouses

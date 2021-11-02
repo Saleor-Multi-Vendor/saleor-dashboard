@@ -15,6 +15,9 @@ import usePaginator, {
 } from "@saleor/hooks/usePaginator";
 import { getStringOrPlaceholder } from "@saleor/misc";
 import { ListViews } from "@saleor/types";
+import {
+  usegetVendorsList
+} from "@saleor/products/queries";
 import createDialogActionHandlers from "@saleor/utils/handlers/dialogActionHandlers";
 import createFilterHandlers from "@saleor/utils/handlers/filterHandlers";
 import createSortHandler from "@saleor/utils/handlers/sortHandler";
@@ -22,10 +25,11 @@ import { mapEdgesToItems, mapNodeToChoice } from "@saleor/utils/maps";
 import { getSortParams } from "@saleor/utils/sort";
 import React from "react";
 import { useIntl } from "react-intl";
+import useUser from "@saleor/hooks/useUser";
 
 import OrderListPage from "../../components/OrderListPage/OrderListPage";
 import { useOrderDraftCreateMutation } from "../../mutations";
-import { useOrderListQuery } from "../../queries";
+import { useOrderListQuery, useOrderListVendorQuery } from "../../queries";
 import { OrderDraftCreate } from "../../types/OrderDraftCreate";
 import {
   orderListUrl,
@@ -57,6 +61,11 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
   const { updateListSettings, settings } = useListSettings(
     ListViews.ORDER_LIST
   );
+  const user = useUser();
+  const isVendor=user.user.userPermissions.filter(permissionCode=>permissionCode.code=="MANAGE_VENDOR").length>0 && user.user.email!="admin@example.com"?true:false;
+  const {
+    data: vendors
+  } = usegetVendorsList({})
 
   usePaginationReset(
     orderListUrl({
@@ -142,10 +151,30 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
     }),
     [params, settings.rowNumber]
   );
-  const { data, loading } = useOrderListQuery({
+  // const { data, loading } = useOrderListQuery({
+  //   displayLoader: true,
+  //   variables: queryVariables
+  // });
+
+//
+const currentVendor=vendors?vendors.vendors.edges.filter(vendor=>{
+      if(vendor.node.user){
+    return vendor.node.user.email==user?.user.email}
+    else return false}):null
+  let vendorId=null;
+if(currentVendor){
+vendorId=currentVendor.length>0 ?currentVendor[0].node.id:null;
+}
+console.log('vendorId',vendorId)
+const { data, loading, refetch } = isVendor? useOrderListVendorQuery({
+    displayLoader: true,
+    variables: {...queryVariables,filter:{vendor:vendorId}}
+  }): 
+useOrderListQuery({
     displayLoader: true,
     variables: queryVariables
   });
+  
 
   const { loadNextPage, loadPreviousPage, pageInfo } = paginate(
     data?.orders?.pageInfo,

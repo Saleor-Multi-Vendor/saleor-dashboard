@@ -29,10 +29,12 @@ const WarehouseCreate: React.FC = () => {
     if (!vendor.node.user) return false;
     return vendor.node.user.email==user?.user.email
   })
+    console.log('vendors warehouse vendors created',currentVendor,vendors,user)
     const [createVendorWarehouse, createVendorWarehouseOpts] = useVendorWarehouseCreate({
     onCompleted: data => {
          
-  console.log('vendors warehouse vendors created',currentVendor,data)}})
+  console.log('vendors warehouse vendors created',currentVendor,vendor, user)
+  }})
 
         
 // useEffect(()=>{

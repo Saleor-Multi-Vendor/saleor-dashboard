@@ -99,10 +99,9 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ id, params }) => {
               text: intl.formatMessage(commonMessages.savedChanges)
             });
           }
-
           return result;
         };
-
+        console.log('result data',data)
         return (
           <OrderDetailsMessages id={id} params={params}>
             {orderMessages => (

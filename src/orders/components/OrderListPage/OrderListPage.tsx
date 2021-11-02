@@ -59,7 +59,7 @@ const OrderListPage: React.FC<OrderListPageProps> = ({
   const classes = useStyles({});
   const filterStructure = createFilterStructure(intl, filterOpts);
   const limitsReached = isLimitReached(limits, "orders");
-
+  console.log('list props', listProps)
   return (
     <Container>
       <PageHeader

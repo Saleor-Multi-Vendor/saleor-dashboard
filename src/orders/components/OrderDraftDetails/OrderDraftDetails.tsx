@@ -33,7 +33,7 @@ const OrderDraftDetails: React.FC<OrderDraftDetailsProps> = ({
   onShippingMethodEdit
 }) => {
   const intl = useIntl();
-
+console.log('orders',order)
   return (
     <Card>
       <CardTitle

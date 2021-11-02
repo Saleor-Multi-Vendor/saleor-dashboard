@@ -43,6 +43,7 @@ export function getToFulfillOrderLines(lines?: OrderFulfillData_order_lines[]) {
 export function getWarehousesFromOrderLines<
   T extends OrderLineWithStockWarehouses
 >(lines?: T[]) {
+  console.log('data lines', lines)
   return lines?.reduce(
     (warehouses, line) =>
       line.variant?.stocks?.reduce(

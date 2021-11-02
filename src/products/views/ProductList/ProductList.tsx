@@ -89,13 +89,26 @@ interface ProductListProps {
 
 export const ProductList: React.FC<ProductListProps> = ({ params }) => {
 const user = useUser();
-const isVendor=user.user.userPermissions.filter(permissionCode=>permissionCode.code=="MANAGE_VENDOR").length>0 && user.user.userPermissions.length<4?true:false;
     // if(isVendor){ 
        const {
     data: vendors
   } = usegetVendorsList({})
     // console.log("vendors",vendors,vendors?vendors.vendors.edges[0].node.user.email:null)
-    
+     console.log("user ", user.user.id)
+      const currentVendor=vendors?vendors.vendors.edges.filter(vendor=>{
+      if(vendor.node.user){
+    return vendor.node.user.email==user?.user.email}
+    else return false}):null 
+const isVendor=user.user.userPermissions.filter(permissionCode=>permissionCode.code=="MANAGE_VENDOR").length>0 && user.user.email!="admin@example.com" && currentVendor?true:false;
+ 
+  let vendorId=null;
+if(currentVendor){
+
+vendorId=currentVendor.length>0 ?currentVendor[0].node.id:null;
+}
+
+  
+
     
   const navigate = useNavigator();
   const notify = useNotifier();
@@ -316,15 +329,6 @@ const isVendor=user.user.userPermissions.filter(permissionCode=>permissionCode.c
   );
   // TODO: When channel is undefined we should skip detailed pricing listings
 // const vendorId= "VmVuZG9yOjE="
-    const currentVendor=vendors?vendors.vendors.edges.filter(vendor=>{
-      if(vendor.node.user){
-    return vendor.node.user.email==user?.user.email}
-    else return false}):null
-  let vendorId=null;
-if(currentVendor){
-
-vendorId=currentVendor.length>0 ?currentVendor[0].node.id:null;
-}
 
 const { data, loading, refetch } = isVendor? useProductListVendorQuery({
     displayLoader: true,

@@ -145,7 +145,9 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
     onBack,
     onSubmit
   } = props;
-
+console.log(
+  "Warehouses", warehouses
+)
   const intl = useIntl();
   const classes = useStyles(props);
 
@@ -297,7 +299,9 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
                       );
                       const overfulfill = remainingQuantity < quantityToFulfill;
                       const isPreorder = !!line.variant?.preorder;
-
+                      console.log('line inventory', line.variant,line, "remaining quantity, quantityToFulfill:",remainingQuantity, quantityToFulfill)
+                              console.log('preorder', isPreorder, line.productName)
+                    
                       return (
                         <TableRow key={line.id}>
                           <TableCellAvatar
@@ -318,8 +322,11 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
                           <TableCell className={classes.colSku}>
                             {line.variant?.sku}
                           </TableCell>
+
                           {warehouses?.map(warehouse => {
+                            console.log('inside warehouse')
                             if (isPreorder) {
+                              console.log('preorder', isPreorder)
                               return (
                                 <TableCell
                                   key="skeleton"
@@ -339,6 +346,7 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
                             ].value.find(
                               line => line.warehouse === warehouse.id
                             );
+                        console.log('inside allocated quantity',allocatedQuantityForLine, availableQuantity)
 
                             if (!warehouseStock) {
                               return (
@@ -358,13 +366,15 @@ const OrderFulfillPage: React.FC<OrderFulfillPageProps> = props => {
                               allocation =>
                                 allocation.warehouse.id === warehouse.id
                             );
+                        console.log('inside allocated quantity',)
+
                             const allocatedQuantityForLine =
                               warehouseAllocation?.quantity || 0;
                             const availableQuantity =
                               warehouseStock.quantity -
                               warehouseStock.quantityAllocated +
                               allocatedQuantityForLine;
-
+                        console.log('inside allocated quantity',allocatedQuantityForLine, availableQuantity)
                             return (
                               <TableCell
                                 className={classes.colQuantity}

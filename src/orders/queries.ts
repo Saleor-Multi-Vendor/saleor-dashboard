@@ -82,9 +82,64 @@ export const orderListQuery = gql`
     }
   }
 `;
+
+export const orderListVendorQuery = gql`
+  ${fragmentAddress}
+  query OrderList(
+    $first: Int
+    $after: String
+    $last: Int
+    $before: String
+    $filter: OrderFilterInput
+    $sort: OrderSortingInput
+  ) {
+    orders(
+      before: $before
+      after: $after
+      first: $first
+      last: $last
+      filter: $filter
+      sortBy: $sort
+    ) {
+      edges {
+        node {
+          __typename
+          billingAddress {
+            ...AddressFragment
+          }
+          created
+          id
+          number
+          paymentStatus
+          status
+          total {
+            __typename
+            gross {
+              __typename
+              amount
+              currency
+            }
+          }
+          userEmail
+        }
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
 export const useOrderListQuery = makeQuery<OrderList, OrderListVariables>(
   orderListQuery
 );
+
+export const useOrderListVendorQuery = makeQuery<OrderList, OrderListVariables>(
+  orderListVendorQuery
+);
+
 
 export const orderDraftListQuery = gql`
   ${fragmentAddress}
