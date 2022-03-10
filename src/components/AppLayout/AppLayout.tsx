@@ -156,7 +156,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   };
 
   const toggleTheme = () => setTheme(isDarkTheme(themeType) ? "light" : "dark");
-
+console.log('user profile ', user)
   return (
     <>
       <Navigator

@@ -6,13 +6,14 @@ import { commonMessages } from "@saleor/intl";
 import { findValueInEnum, getMutationStatus } from "@saleor/misc";
 import { CountryCode } from "@saleor/types/globalTypes";
 import WarehouseCreatePage from "@saleor/warehouses/components/WarehouseCreatePage";
-import { useWarehouseCreate , useVendorWarehouseCreate} from "@saleor/warehouses/mutations";
+import { useWarehouseCreate, useVendorWarehouseCreate } from "@saleor/warehouses/mutations";
 import { warehouseListUrl, warehouseUrl } from "@saleor/warehouses/urls";
-import {usegetVendorsList
+import {
+  usegetVendorsList
 } from "@saleor/products/queries";
 import useUser from "@saleor/hooks/useUser";
 
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useIntl } from "react-intl";
 
 const WarehouseCreate: React.FC = () => {
@@ -21,73 +22,80 @@ const WarehouseCreate: React.FC = () => {
   const notify = useNotifier();
   const shop = useShop();
   const {
-    data: vendors
+    data: vendorsList,
+    error: errorList
   } = usegetVendorsList({})
   const user = useUser();
-  const currentVendor=vendors?.vendors.edges.filter(vendor=>{
+  const currentVendor = vendorsList?.vendors.edges.filter(vendor => {
     if (!vendor) return false;
     if (!vendor.node.user) return false;
-    return vendor.node.user.email==user?.user.email
-  })
-    console.log('vendors warehouse vendors created',currentVendor,vendors,user)
-    const [createVendorWarehouse, createVendorWarehouseOpts] = useVendorWarehouseCreate({
+    // console.log('vendors warehouse filter', vendor.node.user.email, user)
+    return vendor.node.user.email == user ?.user.email
+  }) 
+  // console.log('vendors warehouse vendors created', errorList, vendorsList)
+  const [createVendorWarehouse, createVendorWarehouseOpts] = useVendorWarehouseCreate({
     onCompleted: data => {
-         
-  console.log('vendors warehouse vendors created',currentVendor,vendor, user)
-  }})
 
-        
-// useEffect(()=>{
-//     useVendorWarehouseCreate({
-//             variables: {
-//               input: {
-//                 vendorId:"324",
-//                 warehouse:'3jsnfodsnf'
-//                 }
-              
-//               }
-            
-//           })
-//     }
-// ,[])
+      // console.log('vendors warehouse vendors created', currentVendor, vendorsList, user)
+    }
+  })
+
+
+  // useEffect(()=>{
+  //     useVendorWarehouseCreate({
+  //             variables: {
+  //               input: {
+  //                 vendorId:"324",
+  //                 warehouse:'3jsnfodsnf'
+  //                 }
+
+  //               }
+
+  //           })
+  //     }
+  // ,[])
   const [createWarehouse, createWarehouseOpts] = useWarehouseCreate({
     onCompleted: data => {
+      console.log('should create Vendor warehouse ROOT', data)
 
-   const warehouseId=data.createWarehouse.warehouse.id;
-   console.log('warehouse', warehouseId)
-   console.log('vendor', currentVendor)
-   const vendorId=currentVendor[0].node.id;
-   console.log('vendorId', vendorId)
+      const warehouseId = data ?.createWarehouse.warehouse.id;
+      console.log('warehouse', warehouseId)
+      console.log('vendor', currentVendor)
+      const vendorId = currentVendor[0].node.id;
+      console.log('vendorId', vendorId)
 
-   console.log('errors and user', user?.user.email, data.createWarehouse.errors)
+      console.log('should create Vendor warehouse OUTSIDE', user ?.user.email, data.createWarehouse.errors)
 
-         if(user?.user.email!="admin@example.com"){
-                    console.log('should create vendor warehouse')
-                    createVendorWarehouse({
-            variables: {
-              input: {
-                vendorId:vendorId,
-                warehouse:warehouseId
-                }
-              
-              }
-            
-          })
-                  }
+      if (user ?.user.email != "admin@example.com") {
+        console.log('should create vendor warehouse INSIDE')
+        createVendorWarehouse({
+          variables: {
+            input: {
+              vendorId: vendorId,
+              warehouse: warehouseId
+            }
+
+          }
+
+        })
+      }
       if (data.createWarehouse.errors.length === 0) {
-        
+
 
         navigate(warehouseUrl(data.createWarehouse.warehouse.id));
-          notify({
+        notify({
           status: "success",
           text: intl.formatMessage(commonMessages.savedChanges)
         });
-   
+
       }
+    },
+    onError: error => {
+      console.log('should create vendor ERROR', error)
     }
   });
   const createWarehouseTransitionState = getMutationStatus(createWarehouseOpts);
-  
+
 
   return (
     <>
@@ -98,9 +106,9 @@ const WarehouseCreate: React.FC = () => {
         })}
       />
       <WarehouseCreatePage
-        countries={shop?.countries || []}
+        countries={shop ?.countries || []}
         disabled={createWarehouseOpts.loading}
-        errors={createWarehouseOpts.data?.createWarehouse.errors || []}
+        errors={createWarehouseOpts.data ?.createWarehouse.errors || []}
         saveButtonBarState={createWarehouseTransitionState}
         onBack={() => navigate(warehouseListUrl())}
         onSubmit={data =>

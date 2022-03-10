@@ -56,6 +56,7 @@ export interface LoginCardProps {
   externalAuthentications?: AvailableExternalAuthentications_shop_availableExternalAuthentications[];
   onExternalAuthentication: (pluginId: string) => void;
   onPasswordRecovery: () => void;
+  onSignUpHandler: ()=>void;
   onSubmit?: (event: LoginFormData) => SubmitPromise;
 }
 
@@ -68,6 +69,7 @@ const LoginCard: React.FC<LoginCardProps> = props => {
     externalAuthentications = [],
     onExternalAuthentication,
     onPasswordRecovery,
+    onSignUpHandler,
     onSubmit
   } = props;
 
@@ -153,6 +155,22 @@ const LoginCard: React.FC<LoginCardProps> = props => {
                   <a className={classes.link} onClick={onPasswordRecovery}>
                     <FormattedMessage
                       defaultMessage="Use this link to recover it"
+                      description="link"
+                    />
+                  </a>
+                )
+              }}
+            />
+          </Typography>
+                    <Typography>
+            <FormattedMessage
+              defaultMessage="New Vendor? {signUpLink}" 
+              description="description"
+              values={{
+                signUpLink: (
+                  <a className={classes.link} onClick={onSignUpHandler}>
+                    <FormattedMessage
+                      defaultMessage=" Sign up"
                       description="link"
                     />
                   </a>

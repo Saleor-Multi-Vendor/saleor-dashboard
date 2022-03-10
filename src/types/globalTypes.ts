@@ -2799,7 +2799,7 @@ export interface SiteDomainInput {
   name?: string | null;
 }
 
-export interface StaffCreateInput {
+export interface StaffVendorCreateInput {
   firstName?: string | null;
   lastName?: string | null;
   email?: string | null;
@@ -2807,6 +2807,7 @@ export interface StaffCreateInput {
   note?: string | null;
   addGroups?: string[] | null;
   redirectUrl?: string | null;
+  password?: string | null;
 }
 
 export interface StaffUpdateInput {
@@ -2910,7 +2911,19 @@ export interface WarehouseCreateInput {
   address: AddressInput;
   shippingZones?: (string | null)[] | null;
 }
+export interface VendorWarehouseCreateInput {
+  vendorId?: string | null;
+  warehouse?: string | null;
+}
 
+export interface VendorCreateInput {
+  user?: string | null;
+  shopName?: string | null;
+}
+export interface VendorInput {
+  user?: string | null;
+  shopName?: string | null;
+}
 export interface WarehouseFilterInput {
   clickAndCollectOption?: WarehouseClickAndCollectOptionEnum | null;
   search?: string | null;

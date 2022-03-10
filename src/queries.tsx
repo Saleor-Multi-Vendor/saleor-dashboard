@@ -69,7 +69,7 @@ export function TypedQuery<TData, TVariables>(
     const [, dispatchAppState] = useAppState();
     const intl = useIntl();
     const user = useUser();
-
+    console.log("variables", variables,query);
     return (
       <Query
         fetchPolicy="cache-and-network"
@@ -104,6 +104,7 @@ export function TypedQuery<TData, TVariables>(
                 }
                 return mergeFunc(previousResults, fetchMoreResult);
               },
+
               variables: { ...variables, ...extraVariables }
             });
 

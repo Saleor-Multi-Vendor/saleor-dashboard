@@ -54,7 +54,6 @@ interface NotFoundPageProps {
 
 const NotFoundPage: React.FC<NotFoundPageProps> = props => {
   const { onBack } = props;
-
   const classes = useStyles(props);
 
   return (

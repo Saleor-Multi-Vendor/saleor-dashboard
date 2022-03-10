@@ -13,7 +13,8 @@ import { AvailableExternalAuthentications } from "../types/AvailableExternalAuth
 import {
   loginCallbackPath,
   LoginUrlQueryParams,
-  passwordResetUrl
+  passwordResetUrl,
+  signUpUrl
 } from "../urls";
 
 interface LoginViewProps {
@@ -89,6 +90,7 @@ const LoginView: React.FC<LoginViewProps> = ({ params }) => {
       loading={externalAuthenticationsLoading || tokenAuthLoading}
       onExternalAuthentication={handleRequestExternalAuthentication}
       onPasswordRecovery={() => navigate(passwordResetUrl)}
+      onSignUpHandler={() => navigate(signUpUrl)}
       onSubmit={handleSubmit}
     />
   );

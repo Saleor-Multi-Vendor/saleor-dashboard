@@ -96,6 +96,7 @@ export const StaffList: React.FC<StaffListProps> = ({ params }) => {
 
   const [addStaffMember, addStaffMemberData] = useStaffMemberAddMutation({
     onCompleted: data => {
+      console.log('staff added new')
       if (data.staffCreate.errors.length === 0) {
         notify({
           status: "success",

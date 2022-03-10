@@ -17,7 +17,9 @@ import createSingleAutocompleteSelectHandler from "@saleor/utils/handlers/single
 import { mapCountriesToChoices } from "@saleor/utils/maps";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-
+import {
+  usegetVendorsList
+} from "@saleor/products/queries";
 import WarehouseInfo from "../WarehouseInfo";
 
 export interface WarehouseCreatePageFormData extends AddressTypeInput {
@@ -54,7 +56,8 @@ const WarehouseCreatePage: React.FC<WarehouseCreatePageProps> = ({
 }) => {
   const intl = useIntl();
   const [displayCountry, setDisplayCountry] = useStateFromProps("");
-
+  const {data: vendors} = usegetVendorsList({})
+  console.log('vendors list', vendors)
   const {
     errors: validationErrors,
     submit: handleSubmit

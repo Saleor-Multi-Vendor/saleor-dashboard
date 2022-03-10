@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { StaffCreateInput, AccountErrorCode, PermissionEnum } from "./../../types/globalTypes";
+import { StaffVendorCreateInput, AccountErrorCode, PermissionEnum } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: StaffMemberAdd
@@ -56,5 +56,32 @@ export interface StaffMemberAdd {
 }
 
 export interface StaffMemberAddVariables {
-  input: StaffCreateInput;
+  input: StaffVendorCreateInput;
+}
+
+
+export interface StaffMemberVendorAdd_staffCreate_user {
+  __typename: "User";
+  id: string;
+  email: string;
+  firstName: string;
+  isActive: boolean;
+  lastName: string;
+  // permissionGroups: (StaffMemberAdd_staffCreate_user_permissionGroups | null)[] | null;
+  // userPermissions: (StaffMemberAdd_staffCreate_user_userPermissions | null)[] | null;
+  avatar: StaffMemberAdd_staffCreate_user_avatar | null;
+}
+
+export interface StaffMemberVendorAdd_staffCreate {
+  __typename: "StaffCreate";
+  errors: StaffMemberAdd_staffCreate_errors[];
+  user: StaffMemberAdd_staffCreate_user | null;
+}
+
+export interface StaffMemberVendorAdd {
+  staffCreate: StaffMemberAdd_staffCreate | null;
+}
+
+export interface StaffMemberVendorAddVariables {
+  input: StaffVendorCreateInput;
 }

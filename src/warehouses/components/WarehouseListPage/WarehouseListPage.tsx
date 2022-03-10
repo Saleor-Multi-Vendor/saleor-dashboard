@@ -62,6 +62,7 @@ export const WarehouseListPage: React.FC<WarehouseListPageProps> = ({
 
 
   const {data:vendorWarehousesData}= usegetVendorWarehouses({})
+  console.log('vendor warehouse data', vendorWarehousesData)
   const user=useUser();
   const isAdmin=user?.user.email=='admin@example.com'?true:false;
   let vendorWarehouses=vendorWarehousesData?.vendorWarehouses.edges.filter(vWarehouse=>(vWarehouse.node.vendorId.user.email==user?.user.email && vWarehouse.node.warehouse))

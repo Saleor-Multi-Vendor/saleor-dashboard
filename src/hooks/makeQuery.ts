@@ -66,7 +66,7 @@ function makeQuery<TData, TVariables>(
     const [, dispatchAppState] = useAppState();
     const user = useUser();
     const userPermissions = getUserPermissions(
-      user.user?.userPermissions || []
+      user.user ?.userPermissions || []
     );
 
     const variablesWithPermissions = {
@@ -74,21 +74,21 @@ function makeQuery<TData, TVariables>(
       ...allPermissions,
       ...userPermissions
     };
-
+    console.log("attempting query", query)
     const queryData = useBaseQuery(query, {
       context: {
         useBatching: true
       },
       errorPolicy: "all",
       fetchPolicy: fetchPolicy || "cache-and-network",
-      onError: error =>
+      onError: error =>{
         handleQueryAuthError(
           error,
           notify,
           user.tokenRefresh,
           user.logout,
           intl
-        ),
+        )},
       skip,
       variables: variablesWithPermissions
     });

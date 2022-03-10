@@ -2,7 +2,7 @@ import {
   accountErrorFragment,
   staffErrorFragment
 } from "@saleor/fragments/errors";
-import { staffMemberDetailsFragment } from "@saleor/fragments/staff";
+import { staffMemberDetailsFragment2, staffMemberDetailsFragment } from "@saleor/fragments/staff";
 import makeMutation from "@saleor/hooks/makeMutation";
 import gql from "graphql-tag";
 
@@ -18,7 +18,9 @@ import {
 } from "./types/StaffAvatarUpdate";
 import {
   StaffMemberAdd,
-  StaffMemberAddVariables
+  StaffMemberAddVariables,
+  StaffMemberVendorAdd,
+  StaffMemberVendorAddVariables
 } from "./types/StaffMemberAdd";
 import {
   StaffMemberDelete,
@@ -32,8 +34,30 @@ import {
 const staffMemberAddMutation = gql`
   ${staffErrorFragment}
   ${staffMemberDetailsFragment}
-  mutation StaffMemberAdd($input: StaffCreateInput!) {
+  mutation StaffMemberAdd($input: StaffVendorCreateInput!) {
     staffCreate(input: $input) {
+      errors {
+        ...StaffErrorFragment
+      }
+      user {
+        ...StaffMemberDetailsFragment
+      }
+      redirectUrl
+    }
+
+
+  }
+`;
+export const useStaffMemberAddMutation = makeMutation<
+  StaffMemberAdd,
+  StaffMemberAddVariables
+>(staffMemberAddMutation);
+
+const staffMemberVendorAddMutation = gql`
+  ${staffErrorFragment}
+  ${staffMemberDetailsFragment}
+  mutation StaffMemberVendorAdd($input: StaffVendorCreateInput!) {
+    vendorStaffCreate(input: $input) {
       errors {
         ...StaffErrorFragment
       }
@@ -43,10 +67,10 @@ const staffMemberAddMutation = gql`
     }
   }
 `;
-export const useStaffMemberAddMutation = makeMutation<
-  StaffMemberAdd,
-  StaffMemberAddVariables
->(staffMemberAddMutation);
+export const useStaffMemberVendorAddMutation = makeMutation<
+  StaffMemberVendorAdd,
+  StaffMemberVendorAddVariables
+>(staffMemberVendorAddMutation);
 
 const staffMemberUpdateMutation = gql`
   ${staffErrorFragment}
@@ -62,6 +86,9 @@ const staffMemberUpdateMutation = gql`
     }
   }
 `;
+
+
+
 export const TypedStaffMemberUpdateMutation = TypedMutation<
   StaffMemberUpdate,
   StaffMemberUpdateVariables
@@ -98,6 +125,8 @@ const staffAvatarUpdateMutation = gql`
     }
   }
 `;
+
+
 export const TypedStaffAvatarUpdateMutation = TypedMutation<
   StaffAvatarUpdate,
   StaffAvatarUpdateVariables

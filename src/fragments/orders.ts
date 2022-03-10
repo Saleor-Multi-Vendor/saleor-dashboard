@@ -180,6 +180,9 @@ export const fragmentOrderDetails = gql`
   ${metadataFragment}
   ${fragmentMoney}
   fragment OrderDetailsFragment on Order {
+    lines(vendor: "VmVuZG9yOjc=") {
+      ...OrderLineFragment
+    }
     id
     ...MetadataFragment
     billingAddress {
@@ -225,9 +228,6 @@ export const fragmentOrderDetails = gql`
     }
     fulfillments {
       ...FulfillmentFragment
-    }
-    lines {
-      ...OrderLineFragment
     }
     number
     isPaid

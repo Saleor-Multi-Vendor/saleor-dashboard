@@ -7,6 +7,7 @@ import {
   WarehouseCreate,
   WarehouseCreateVariables
 } from "./types/WarehouseCreate";
+
 import {
   WarehouseDelete,
   WarehouseDeleteVariables
@@ -16,6 +17,15 @@ import {
   WarehouseUpdateVariables
 } from "./types/WarehouseUpdate";
 
+import {
+  VendorCreate,
+  VendorCreateVariables
+} from "./types/VendorCreate";
+
+import {
+  VendorWarehouseCreate,
+  VendorWarehouseVariables
+} from "./types/WarehouseCreate";
 const deleteWarehouse = gql`
   ${warehouseErrorFragment}
   mutation WarehouseDelete($id: ID!) {
@@ -45,6 +55,29 @@ const createWarehouse = gql`
     }
   }
 `;
+
+
+const createVendorMutation = gql`
+    mutation createVendor($input: VendorCreateInput!)
+     {
+     createVendor(
+        input: $input) {
+        vendor{
+          id
+          user{
+          email
+          id
+        }
+        shopName
+    }
+    }
+}
+`
+export const useCreateVendor = makeMutation<
+    VendorCreate,
+    VendorVariables
+>(createVendorMutation);
+
 export const useWarehouseCreate = makeMutation<
   WarehouseCreate,
   WarehouseCreateVariables
@@ -68,7 +101,7 @@ const createVendorWarehouse = gql`
   }
 `;
 export const useVendorWarehouseCreate = makeMutation<
-  createVendorWarehouse, 
+  VendorWarehouseCreate, 
   VendorWarehouseVariables
 >(createVendorWarehouse);
 

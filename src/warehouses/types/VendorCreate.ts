@@ -3,7 +3,7 @@
 // @generated
 // This file was automatically generated and should not be edited.
 
-import { WarehouseCreateInput, WarehouseErrorCode, WarehouseClickAndCollectOptionEnum, VendorWarehouseCreateInput, VendorInput,VendorCreateInput } from "./../../types/globalTypes";
+import { WarehouseCreateInput, WarehouseErrorCode, WarehouseClickAndCollectOptionEnum, VendorWarehouseCreateInput, VendorInput } from "./../../types/globalTypes";
 
 // ====================================================
 // GraphQL mutation operation: WarehouseCreate
@@ -105,10 +105,14 @@ export interface VendorWarehouseCreate {
   createVendorWarehouse: VendorWarehouseCreate_createVendorWarehouse | null;
 }
 
-export interface vendorVariables {
-  input: VendorCreateInput;
+export interface VendorVariables {
+  input: VendorInput;
 }
 
 export interface VendorCreate {
-  createVendor: VendorCreate_createVendor | null;
+  vendorCreate: VendorCreate_createVendor | null;
+}
+
+export interface VendorCreateVariables {
+  input: VendorInput;
 }

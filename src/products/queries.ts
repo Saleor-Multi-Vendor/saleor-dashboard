@@ -49,7 +49,8 @@ import {
   ProductDetails,
   ProductDetailsVariables
 } from "./types/ProductDetails";
-import { ProductList, ProductListVariables } from "./types/ProductList";
+import { ProductList, ProductListVariables,VendorList, VendorListVariables } from "./types/ProductList";
+
 import { ProductType, ProductTypeVariables } from "./types/ProductType";
 import {
   ProductVariantCreateData,
@@ -231,7 +232,7 @@ export const useProductListVendorQuery = makeQuery<ProductList, ProductListVaria
 );
 
 const getVendorWarehouses=gql`
-query {
+query VendorWarehouses{
   vendorWarehouses(first:100){
     edges{
       node{
@@ -271,12 +272,14 @@ null,  null
 >(getVendorWarehouses);
 
 const getVendorsList=gql`
-query getVendorsList {
+query VendorsList{
   vendors(first:100){
+    
     edges{
     node{
       id
       user{
+        id
         email
         firstName
         lastName
@@ -288,7 +291,7 @@ query getVendorsList {
 `
 
 export const usegetVendorsList = makeQuery<
-null,  null
+VendorList,VendorListVariables  
 >(getVendorsList);
 
 const productCountQuery = gql`

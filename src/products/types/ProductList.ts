@@ -1,3 +1,4 @@
+import { VendorList_vendor_node } from './ProductList';
 /* tslint:disable */
 /* eslint-disable */
 // @generated
@@ -138,6 +139,41 @@ export interface ProductList {
 }
 
 export interface ProductListVariables {
+  first?: number | null;
+  after?: string | null;
+  last?: number | null;
+  before?: string | null;
+  filter?: ProductFilterInput | null;
+  channel?: string | null;
+  sort?: ProductOrder | null;
+}
+
+
+export interface VendorList_vendor_node {
+  __typeName: "VendorCountableEdge";
+  id?: string | null;
+  user: VendorList_vendor_node_user
+}
+
+export interface VendorList_vendor_node_user {
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+export interface VendorList_vendor_edges {
+  __typename: "VendorCountableEdge";
+  node: VendorList_vendor_node;
+}
+export interface VendorList_vendors {
+  __typename: "VendorCountableConnection";
+  edges: VendorList_vendor_edges[];
+
+}
+export interface VendorList {
+  products: VendorList_vendors | null;
+}
+
+export interface VendorListVariables {
   first?: number | null;
   after?: string | null;
   last?: number | null;

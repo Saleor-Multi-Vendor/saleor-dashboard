@@ -338,7 +338,6 @@ useProductListQuery({
     displayLoader: true,
     variables: queryVariables
   });
-  console.log("vendors", currentVendor, "products", data)
 
   function filterColumnIds(columns: ProductListColumns[]) {
     return columns
@@ -394,7 +393,7 @@ useProductListQuery({
     paginationState,
     params
   );
-
+  console.log('data products',data)
   return (
     <>
       <ProductListPage

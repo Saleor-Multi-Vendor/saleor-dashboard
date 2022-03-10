@@ -14,9 +14,11 @@ import {
   LoginUrlQueryParams,
   newPasswordPath,
   passwordResetPath,
-  passwordResetSuccessPath
+  passwordResetSuccessPath,
+  signUpUrl
 } from "./urls";
 import LoginViewComponent from "./views/Login";
+import SignUpComp from "./views/SignUp";
 import NewPassword from "./views/NewPassword";
 import ResetPassword from "./views/ResetPassword";
 import ResetPasswordSuccess from "./views/ResetPasswordSuccess";
@@ -61,6 +63,7 @@ const AuthRouter: React.FC = () => (
   <Layout>
     <Switch>
       <Route path={passwordResetSuccessPath} component={ResetPasswordSuccess} />
+      <Route path={signUpUrl} component={SignUpComp}/>
       <Route path={passwordResetPath} component={ResetPassword} />
       <Route path={newPasswordPath} component={NewPassword} />
       <Route component={LoginView} />

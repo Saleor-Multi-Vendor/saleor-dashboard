@@ -1,6 +1,14 @@
 import useForm, { SubmitPromise, UseFormResult } from "@saleor/hooks/useForm";
 import React from "react";
 
+export interface LoginFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  confirmPassword: string
+}
+
 export interface FormProps<T> {
   children: (props: UseFormResult<T>) => React.ReactNode;
   confirmLeave?: boolean;

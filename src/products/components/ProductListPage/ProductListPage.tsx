@@ -107,7 +107,7 @@ export const ProductListPage: React.FC<ProductListPageProps> = props => {
   } = props;
   const intl = useIntl();
   const classes = useStyles(props);
-
+console.log('products list props', listProps)
   const handleSave = (columns: ProductListColumns[]) =>
     onUpdateListSettings("columns", columns);
 

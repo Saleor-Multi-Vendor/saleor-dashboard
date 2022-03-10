@@ -4,6 +4,8 @@ import handleFormSubmit from "@saleor/utils/handlers/handleFormSubmit";
 import React from "react";
 
 export interface LoginFormData {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   confirmPassword: string
@@ -13,12 +15,13 @@ export interface UseLoginFormResult {
   change: FormChange;
   data: LoginFormData;
   hasChanged: boolean;
-  submit: () => Promise<boolean>;
+  submit: () => void;
 }
 
-export interface LoginFormProps {
+export interface LoginFormProps<T> {
   children: (props: UseLoginFormResult) => React.ReactNode;
-  onSubmit: (data: LoginFormData) => SubmitPromise;
+  onSubmit: (data: T) => SubmitPromise | void;
+  initial?: T;
 }
 
 const getLoginFormData = () => {
@@ -64,10 +67,28 @@ function useLoginForm(
   };
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ children, onSubmit }) => {
-  const props = useLoginForm(onSubmit);
+const LoginForm: React.FC<LoginFormProps> = ({ children, initial, onSubmit }) => {
+  //const props = useLoginForm(onSubmit);
+  console.log('')
+  const renderProps = useForm(initial, onSubmit);
 
-  return <form onSubmit={props.submit}>{children(props)}</form>;
+  function handleSubmit(event?: React.FormEvent<any>, cb?: () => void) {
+    const { submit } = renderProps;
+
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    if (cb) {
+      cb();
+    }
+
+
+
+    submit();
+  }
+  return <form onSubmit={handleSubmit}>{children(renderProps)}</form>;
 };
 
 LoginForm.displayName = "LoginForm";

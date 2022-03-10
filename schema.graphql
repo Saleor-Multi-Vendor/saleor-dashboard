@@ -3972,7 +3972,7 @@ type Mutation {
   customerUpdate(id: ID!, input: CustomerInput!): CustomerUpdate
   customerDelete(id: ID!): CustomerDelete
   customerBulkDelete(ids: [ID]!): CustomerBulkDelete
-  staffCreate(input: StaffCreateInput!): StaffCreate
+  staffCreate(input: StaffVendorCreateInput!): StaffCreate
   staffUpdate(id: ID!, input: StaffUpdateInput!): StaffUpdate
   staffDelete(id: ID!): StaffDelete
   staffBulkDelete(ids: [ID]!): StaffBulkDelete
@@ -6460,7 +6460,7 @@ type StaffCreate {
   user: User
 }
 
-input StaffCreateInput {
+input StaffVendorCreateInput {
   firstName: String
   lastName: String
   email: String
@@ -6468,6 +6468,7 @@ input StaffCreateInput {
   note: String
   addGroups: [ID!]
   redirectUrl: String
+  password: String
 }
 
 type StaffDelete {
